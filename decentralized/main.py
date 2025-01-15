@@ -2,10 +2,20 @@ import schedule
 import time
 import requests
 import json
+import os
+
+def reset_data_file(filename):
+    """Delete the existing JSON file if it exists."""
+    if os.path.exists(filename):
+        os.remove(filename)
+        print(f"{filename} has been reset.")
+    else:
+        print(f"{filename} does not exist. Starting fresh.")
 
 # Fetching
 
 def fetch_simple_weather(lat, lon, api_key):
+    """Fetch weather data from OpenWeatherMap API."""
     try:
         url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}&units=metric"
         response = requests.get(url)
@@ -38,12 +48,13 @@ def fetch_bike_station_status():
 # Pre-processing to remove unnecessary data
 
 def preprocess_weather_data(data):
+    """Preprocess raw weather data into the desired format."""
     if not data:
         return None
     return {
         "timestamp": data.get("dt"),
         "temperature": data["main"].get("temp"),
-        "precipitation": data.get("rain", {}).get("1h", 0),  # Βροχόπτωση τελευταίας ώρας
+        "precipitation": data.get("rain", {}).get("1h", 0),  # Last hour precipitation
         "wind_speed": data["wind"].get("speed"),
         "cloudiness": data["clouds"].get("all")
     }
@@ -70,26 +81,36 @@ def merge_station_data(station_info, station_status, last_updated):
 
     return merged_data
 
-def save_weather_data(data, filename="weather_data.json"):
+def save_data(data, filename):
+    """Save weather data to a JSON file in array format."""
     if data:
-        with open(filename, "a") as file:
-            json.dump(data, file)
-            file.write("\n")
+        # Check if the file exists
+        if os.path.exists(filename):
+            # Load existing data
+            with open(filename, "r") as file:
+                try:
+                    existing_data = json.load(file)
+                except json.JSONDecodeError:
+                    existing_data = []
+        else:
+            existing_data = []
 
-def save_bike_station_data(data, filename="bike_station_data.json"):
-    if data:
-        with open(filename, "a") as file:
-            json.dump(data, file)
-            file.write("\n")
+        # Append new data
+        existing_data.append(data)
+
+        # Save updated data
+        with open(filename, "w") as file:
+            json.dump(existing_data, file, indent=4)
+
 
 def job():
-    # Weather
-    lat, lon = 40.7128, -74.006  # Νέα Υόρκη
-    api_key = "8104b06580b72d9308c015a06acc4fe6"
+    """Fetch, preprocess, and save weather data at scheduled intervals."""
+    lat, lon = 40.7128, -74.006  # New York City
+    api_key = "8104b06580b72d9308c015a06acc4fe6"  # Replace with your API key
     weather_data = fetch_simple_weather(lat, lon, api_key)
     processed_data = preprocess_weather_data(weather_data)
     if processed_data:
-        save_weather_data(processed_data)
+        save_data(processed_data,"weather_data.json")
         print("Weather data saved:", processed_data)
 
     # Bikes
@@ -101,10 +122,14 @@ def job():
     merged_data = merge_station_data(bike_station_information, bike_station_status, last_updated)
 
     if bike_station_information and bike_station_status and merged_data:
-        save_bike_station_data(merged_data)
+        save_data(merged_data, "bike_station_data.json")
         print("Bike station data saved timestamp : ", merged_data["timestamp"] , " with " , len(merged_data["stations"]) , " stations")
 
 if __name__ == '__main__':
+    # Reset the JSON files when the script starts
+    reset_data_file("weather_data.json")
+    reset_data_file("bike_station_data.json")
+
     # Καλούμε fetch bike station information μια φορα για να παρουμε
     # static πληροφοριες οπως ονομα σταθμου , τοποθεσια κλπ και να μην
     # χρειαζεται να τα καλουμε καθε φορα
@@ -119,3 +144,4 @@ if __name__ == '__main__':
     while True:
         schedule.run_pending()
         time.sleep(1)
+
