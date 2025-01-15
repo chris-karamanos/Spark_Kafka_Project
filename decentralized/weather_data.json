@@ -1,6 +1,16 @@
-{"timestamp": 1736254422, "temperature": -4.95, "precipitation": 0, "wind_speed": 10.29, "cloudiness": 20}
-{"timestamp": 1736254317, "temperature": -4.95, "precipitation": 0, "wind_speed": 10.29, "cloudiness": 20}
-{"timestamp": 1736254942, "temperature": -4.78, "precipitation": 0, "wind_speed": 10.8, "cloudiness": 0}
-{"timestamp": 1736255229, "temperature": -4.73, "precipitation": 0, "wind_speed": 10.8, "cloudiness": 0}
-{"timestamp": 1736255617, "temperature": -4.76, "precipitation": 0, "wind_speed": 10.8, "cloudiness": 0}
-{"timestamp": 1736255825, "temperature": -4.66, "precipitation": 0, "wind_speed": 10.8, "cloudiness": 0}
+[
+    {
+        "timestamp": 1736947078,
+        "temperature": -4.17,
+        "precipitation": 0,
+        "wind_speed": 9.26,
+        "cloudiness": 0
+    },
+    {
+        "timestamp": 1736947466,
+        "temperature": -3.97,
+        "precipitation": 0,
+        "wind_speed": 9.26,
+        "cloudiness": 0
+    }
+]
