@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "partitions": [
+    {
+      "topic": "weather_data",
+      "partition": 0,
+      "replicas": [1, 2]
+    },
+    {
+      "topic": "weather_data",
+      "partition": 1,
+      "replicas": [1, 2]
+    }
+  ]
+}
