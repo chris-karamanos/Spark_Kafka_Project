@@ -127,8 +127,8 @@ def job():
 
 if __name__ == '__main__':
     # Reset the JSON files when the script starts
-    reset_data_file("weather_data.json")
-    reset_data_file("bike_station_data.json")
+    #reset_data_file("weather_data.json")
+    #reset_data_file("bike_station_data.json")
 
     # Καλούμε fetch bike station information μια φορα για να παρουμε
     # static πληροφοριες οπως ονομα σταθμου , τοποθεσια κλπ και να μην
