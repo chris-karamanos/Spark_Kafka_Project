@@ -58,23 +58,31 @@ def preprocess_weather_data(data):
         "wind_speed": data["wind"].get("speed"),
         "cloudiness": data["clouds"].get("all")
     }
+def preprocess_bike_station_information(data):
+    """Preprocess raw bike station information into the desired format."""
+    if not data:
+        return None
+    return [{
+        "station_id": station["station_id"],
+        "name": station["name"],
+        "capacity": station["capacity"],
+        "lon": station["lon"],
+        "lat": station["lat"]
+    } for station in data]
 
-def merge_station_data(station_info, station_status, last_updated):
-    # Convert station status into a dictionary for quick lookup by station_id
+def merge_station_data(station_status, last_updated):
+
     status_lookup = {station["station_id"]: station for station in station_status}
 
     # Merge information
     merged_data = {"timestamp" : last_updated, "stations" : []}
-    for info in station_info:
-        station_id = info.get("station_id")
+    for station in station_status:
+        station_id = station.get("station_id")
         status = status_lookup.get(station_id, {})
 
         # Combine the data
         merged_data["stations"].append({
             "station_id": station_id,
-            "name": info.get("name"),
-            "capacity": info.get("capacity"),
-            "location": (info.get("lon"), info.get("lat")),
             "num_bikes_available": status.get("num_bikes_available", 0),
             "num_docks_available": status.get("num_docks_available", 0)
         })
@@ -115,30 +123,33 @@ def job():
 
     # Bikes
 
-    # Endpoint 2
+    # Endpoint 2 Station Status
     bike_station_status,last_updated = fetch_bike_station_status()
 
     # Combine
-    merged_data = merge_station_data(bike_station_information, bike_station_status, last_updated)
+    merged_data = merge_station_data(bike_station_status, last_updated)
+    if merged_data:
+        save_data(merged_data,"bike_station_status.json")
 
-    if bike_station_information and bike_station_status and merged_data:
-        save_data(merged_data, "bike_station_data.json")
-        print("Bike station data saved timestamp : ", merged_data["timestamp"] , " with " , len(merged_data["stations"]) , " stations")
+    # if bike_station_information and bike_station_status and merged_data:
+    #     save_data(merged_data, "bike_station_data.json")
+    #     print("Bike station data saved timestamp : ", merged_data["timestamp"] , " with " , len(merged_data["stations"]) , " stations")
 
 if __name__ == '__main__':
     # Reset the JSON files when the script starts
     #reset_data_file("weather_data.json")
-    #reset_data_file("bike_station_data.json")
+    #reset_data_file("bike_station_information.json")
+    #reset_data_file("bike_station_status.json")
 
-    # Καλούμε fetch bike station information μια φορα για να παρουμε
-    # static πληροφοριες οπως ονομα σταθμου , τοποθεσια κλπ και να μην
-    # χρειαζεται να τα καλουμε καθε φορα
 
-    # Endpoint 1
+    # Endpoint 1 Αποθήκευση στοιχείων των σταθμών
     bike_station_information = fetch_bike_station_information()
+    bike_station_information = preprocess_bike_station_information(bike_station_information)
+    if bike_station_information:
+        save_data(bike_station_information, "bike_station_information.json")
 
     # Ορισμός χρονοδιαγράμματος (κάθε 5 λεπτά)
-    schedule.every(5).minutes.do(job)
+    (schedule.every(5).minutes.do(job))
 
     # Εκτέλεση
     while True:
