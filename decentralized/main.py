@@ -89,47 +89,26 @@ def merge_station_data(station_status, last_updated):
 
     return merged_data
 
-def save_data(data, filename):
-    """Save weather data to a JSON file in array format."""
+def save_data(data, filename, overwrite=False):
+    """Save data to a JSON file, ensuring proper format."""
     if data:
-        # Check if the file exists
-        if os.path.exists(filename):
-            # Load existing data
+        if overwrite or not os.path.exists(filename):  # ✅ Static data is overwritten
+            with open(filename, "w") as file:
+                json.dump(data if isinstance(data, list) else [data], file, indent=4)  # ✅ Ensure list format
+        else:
             with open(filename, "r") as file:
                 try:
                     existing_data = json.load(file)
+                    if isinstance(existing_data, list):  # ✅ Ensure existing data is a list
+                        existing_data.append(data)  # ✅ Append new entry
+                    else:
+                        existing_data = [existing_data, data]  # Fix incorrect format
                 except json.JSONDecodeError:
-                    existing_data = []
-        else:
-            existing_data = []
+                    existing_data = [data]
 
-        # Append new data
-        existing_data.append(data)
+            with open(filename, "w") as file:
+                json.dump(existing_data, file, indent=4)
 
-        # Save updated data
-        with open(filename, "w") as file:
-            json.dump(existing_data, file, indent=4)
-
-def save_data_asygxrona(data, filename):
-    """Save weather data to a JSON file in array format."""
-    if data:
-        # Check if the file exists
-        if os.path.exists(filename):
-            # Load existing data
-            with open(filename, "r") as file:
-                try:
-                    existing_data = json.load(file)
-                except json.JSONDecodeError:
-                    existing_data = []
-        else:
-            existing_data = []
-
-        # Append new data
-        existing_data.extend(data)
-
-        # Save updated data
-        with open(filename, "w") as file:
-            json.dump(existing_data, file, indent=4)
 
 
 def job():
@@ -159,7 +138,7 @@ def job():
 if __name__ == '__main__':
     # Reset the JSON files when the script starts
     #reset_data_file("weather_data.json")
-    reset_data_file("bike_station_information.json")
+    #reset_data_file("bike_station_information.json")
     #reset_data_file("bike_station_status.json")
 
 
@@ -167,10 +146,10 @@ if __name__ == '__main__':
     bike_station_information = fetch_bike_station_information()
     bike_station_information = preprocess_bike_station_information(bike_station_information)
     if bike_station_information:
-        save_data_asygxrona(bike_station_information, "bike_station_information.json")
+        save_data(bike_station_information, "bike_station_information.json",overwrite=True)
 
     # Ορισμός χρονοδιαγράμματος (κάθε 5 λεπτά)
-    (schedule.every(5).seconds.do(job))
+    (schedule.every(10).seconds.do(job))
 
     # Εκτέλεση
     while True:

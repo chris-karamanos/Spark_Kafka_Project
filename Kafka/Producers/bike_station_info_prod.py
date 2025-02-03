@@ -5,7 +5,7 @@ import time
 # Kafka producer configuration
 conf = {
     'bootstrap.servers': 'localhost:29092,localhost:29093',  # External ports for brokers
-    'client.id': 'bike-station-producer'
+    'client.id': 'station-info-producer'
 }
 
 # Initialize the producer
@@ -19,14 +19,14 @@ def delivery_report(err, msg):
         print(f"Message delivered to {msg.topic()} [{msg.partition()}] at offset {msg.offset()}")
 
 # Load bike station data from the JSON file
-def load_bike_station_data(filepath):
+def load_bike_station_info(filepath):
     with open(filepath, 'r') as file:
         data = json.load(file)
     return data
 
 # Function to send bike station data to the Kafka topic
-def send_bike_station_data(filepath):
-    bike_station_data_list = load_bike_station_data(filepath)
+def send_bike_station_info(filepath):
+    bike_station_data_list = load_bike_station_info(filepath)
 
     for station_data in bike_station_data_list:
         try:
@@ -35,7 +35,7 @@ def send_bike_station_data(filepath):
 
             # Produce the message to the bike_station_data topic
             producer.produce(
-                topic='bike_station_data',
+                topic='station_information',
                 key=str(station_data.get('station_id')),  #Partitioning key
                 value=serialized_data,
                 callback=delivery_report
@@ -55,6 +55,6 @@ def send_bike_station_data(filepath):
 
 # Start the producer
 if __name__ == "__main__":
-    file = "../../decentralized/bike_station_data.json"
+    file = "../../decentralized/bike_station_information.json"
     print("Starting bike station data producer...")
-    send_bike_station_data(file)
+    send_bike_station_info(file)

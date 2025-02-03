@@ -3,7 +3,7 @@ from confluent_kafka import Consumer
 # Kafka consumer configuration
 conf = {
     'bootstrap.servers': 'localhost:29092,localhost:29093',  # External ports for brokers
-    'group.id': 'bike-station-group',  # Unique consumer group ID
+    'group.id': 'station-info-group',  # Unique consumer group ID
     'auto.offset.reset': 'earliest'   # Start from the earliest message
 }
 
@@ -11,7 +11,7 @@ conf = {
 consumer = Consumer(conf)
 
 # Subscribe to the bike_station_data topic
-consumer.subscribe(['bike_station_data'])
+consumer.subscribe(['station_information'])
 
 try:
     print("Listening for messages on 'bike_station_data'...")
