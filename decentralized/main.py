@@ -158,9 +158,9 @@ def job():
 
 if __name__ == '__main__':
     # Reset the JSON files when the script starts
-    reset_data_file("weather_data.json")
+    #reset_data_file("weather_data.json")
     reset_data_file("bike_station_information.json")
-    reset_data_file("bike_station_status.json")
+    #reset_data_file("bike_station_status.json")
 
 
     # Endpoint 1 Αποθήκευση στοιχείων των σταθμών
