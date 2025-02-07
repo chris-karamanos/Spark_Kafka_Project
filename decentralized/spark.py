@@ -141,10 +141,11 @@ print("Correlation between usage and temperature:", corr_usage_temp)
 # plt.title("Correlation between Temperature and Bike Usage")
 # plt.show()
 
-final_df.write.mode("overwrite").parquet("asd")
+
+final_df.write.mode("overwrite").parquet("apotelesma.parquet")
+
 # query = final_df.writeStream \
 #     .outputMode("append" or "complete") \
 #     .format("console") \
 #     .start()
 # query.awaitTermination()
-# peite mou pos sas fainetai kai an thelete to vlepoume avrio na

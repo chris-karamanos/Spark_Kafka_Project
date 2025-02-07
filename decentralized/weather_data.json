@@ -1,16 +1,37 @@
 [
     {
-        "timestamp": 1736947078,
-        "temperature": -4.17,
+        "timestamp": 1738688702,
+        "temperature": 7.1,
         "precipitation": 0,
-        "wind_speed": 9.26,
-        "cloudiness": 0
+        "wind_speed": 9.77,
+        "cloudiness": 20
     },
     {
-        "timestamp": 1736947466,
-        "temperature": -3.97,
+        "timestamp": 1738688702,
+        "temperature": 7.1,
         "precipitation": 0,
-        "wind_speed": 9.26,
-        "cloudiness": 0
+        "wind_speed": 9.77,
+        "cloudiness": 20
+    },
+    {
+        "timestamp": 1738688702,
+        "temperature": 7.1,
+        "precipitation": 0,
+        "wind_speed": 9.77,
+        "cloudiness": 20
+    },
+    {
+        "timestamp": 1738688702,
+        "temperature": 7.1,
+        "precipitation": 0,
+        "wind_speed": 9.77,
+        "cloudiness": 20
+    },
+    {
+        "timestamp": 1738792778,
+        "temperature": 1.61,
+        "precipitation": 0,
+        "wind_speed": 1.34,
+        "cloudiness": 99
     }
 ]
