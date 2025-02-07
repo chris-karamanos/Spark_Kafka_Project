@@ -149,7 +149,7 @@ if __name__ == '__main__':
         save_data(bike_station_information, "bike_station_information.json",overwrite=True)
 
     # Ορισμός χρονοδιαγράμματος (κάθε 5 λεπτά)
-    (schedule.every(10).seconds.do(job))
+    (schedule.every(5).minutes.do(job))
 
     # Εκτέλεση
     while True:
