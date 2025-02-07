@@ -95,7 +95,7 @@ stations_util_df = stations_joined.withColumn(
 )
 
 #ΕΡΩΤΗΜΑ 3
-#μερντζαρουμε weather με ποδηλατα με βάση τον χρονο (αυτο ίσως πρέπει να το στρογγυλοποιήσουμε σε πλησιεστερο λεπτό ή κατι γιατι λογικα θα υπάρχουν μικροδιαφορες)
+#μερντζαρουμε weather με ποδηλατα με βάση τον χρονο
 #άρα όλα είναι σε 1 dataframe
 all_joined_df = stations_util_df.alias("st") \
     .join(
@@ -141,7 +141,9 @@ print("Correlation between usage and temperature:", corr_usage_temp)
 # plt.title("Correlation between Temperature and Bike Usage")
 # plt.show()
 
+
 final_df.write.mode("overwrite").parquet("apotelesma.parquet")
+
 # query = final_df.writeStream \
 #     .outputMode("append" or "complete") \
 #     .format("console") \
