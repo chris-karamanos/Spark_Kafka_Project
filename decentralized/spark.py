@@ -130,7 +130,7 @@ final_df = all_joined_df.groupBy("timestamp") \
 corr_usage_temp = all_joined_df.stat.corr("docking_station_utilisation", "temperature")
 print("Correlation between usage and temperature:", corr_usage_temp)
 
-#μπορούμε να προσθέσουμε τα plots αν και δεν είμαι σίγουρος ότι χρειάζεται (θα γίναι πολύ αργό και ίσως το περιπλέξουμε)
+#μπορούμε να προσθέσουμε τα plots αν και δεν είμαι σίγουρος ότι χρειάζεται (θα γίναι πολύ αργό)
 #import matplotlib.pyplot as plt
 
 # pdf = all_joined_df.select("docking_station_utilisation", "temperature").sample(False, 0.05).toPandas()
@@ -141,12 +141,9 @@ print("Correlation between usage and temperature:", corr_usage_temp)
 # plt.title("Correlation between Temperature and Bike Usage")
 # plt.show()
 
-final_df.write.mode("overwrite").parquet("/path/to/output/")
-# afto logika tha einai komple opos to eipame prin gia batch. An theloume na to kanoume streaming prepei na paixoume pio poli me pollapla joins
-# gia an ginei se streaming prepei na prosthesoume afto sto telos
+final_df.write.mode("overwrite").parquet("apotelesma.parquet")
 # query = final_df.writeStream \
 #     .outputMode("append" or "complete") \
 #     .format("console") \
 #     .start()
 # query.awaitTermination()
-# peite mou pos sas fainetai kai an thelete to vlepoume avrio na
