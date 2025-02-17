@@ -1,37 +1,23 @@
 [
     {
-        "timestamp": 1738688702,
-        "temperature": 7.1,
+        "timestamp": 1738957279,
+        "temperature": 3.65,
         "precipitation": 0,
-        "wind_speed": 9.77,
-        "cloudiness": 20
+        "wind_speed": 10.29,
+        "cloudiness": 0
     },
     {
-        "timestamp": 1738688702,
-        "temperature": 7.1,
+        "timestamp": 1738957665,
+        "temperature": 3.58,
         "precipitation": 0,
-        "wind_speed": 9.77,
-        "cloudiness": 20
+        "wind_speed": 10.29,
+        "cloudiness": 0
     },
     {
-        "timestamp": 1738688702,
-        "temperature": 7.1,
+        "timestamp": 1738958400,
+        "temperature": 3.7,
         "precipitation": 0,
-        "wind_speed": 9.77,
-        "cloudiness": 20
-    },
-    {
-        "timestamp": 1738688702,
-        "temperature": 7.1,
-        "precipitation": 0,
-        "wind_speed": 9.77,
-        "cloudiness": 20
-    },
-    {
-        "timestamp": 1738792778,
-        "temperature": 1.61,
-        "precipitation": 0,
-        "wind_speed": 1.34,
-        "cloudiness": 99
+        "wind_speed": 6.26,
+        "cloudiness": 41
     }
 ]
