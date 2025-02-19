@@ -92,15 +92,15 @@ def merge_station_data(station_status, last_updated):
 def save_data(data, filename, overwrite=False):
     """Save data to a JSON file, ensuring proper format."""
     if data:
-        if overwrite or not os.path.exists(filename):  # ✅ Static data is overwritten
+        if overwrite or not os.path.exists(filename):  #  Static data is overwritten
             with open(filename, "w") as file:
-                json.dump(data if isinstance(data, list) else [data], file, indent=4)  # ✅ Ensure list format
+                json.dump(data if isinstance(data, list) else [data], file, indent=4)  #  Ensure list format
         else:
             with open(filename, "r") as file:
                 try:
                     existing_data = json.load(file)
-                    if isinstance(existing_data, list):  # ✅ Ensure existing data is a list
-                        existing_data.append(data)  # ✅ Append new entry
+                    if isinstance(existing_data, list):  #  Ensure existing data is a list
+                        existing_data.append(data)  #  Append new entry
                     else:
                         existing_data = [existing_data, data]  # Fix incorrect format
                 except json.JSONDecodeError:
