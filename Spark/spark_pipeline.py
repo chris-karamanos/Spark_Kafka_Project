@@ -156,5 +156,3 @@ stations_joined_query.awaitTermination()
 #query.awaitTermination()
 #station_info_query.awaitTermination()
 #station_status_query.awaitTermination()
-
-
